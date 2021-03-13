@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace API_FAUNA.Data
 {
-    public class EspecieEntity : IEspecie, IDisposable
+    public class EspecieService : IEspecie, IDisposable
     {
-        private FaunaContext context;
+        private readonly FaunaContext context;
 
-        public EspecieEntity()
+        public EspecieService(FaunaContext context)
         {
-            this.context = new FaunaContext();
+            this.context = context;
         }
         public void Adicionar(Especie e)
         {
@@ -32,9 +32,14 @@ namespace API_FAUNA.Data
             context.Dispose();
         }
 
-        public IList<Especie> Especies()
+        public IList<Especie> GetEspecies()
         {
             return context.Especies.ToList();
+        }
+
+        public Especie GetId(int id)
+        {
+           return context.Especies.FirstOrDefault(e => e.Id == id);
         }
 
         public void Remover(Especie e)

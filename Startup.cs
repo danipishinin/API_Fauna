@@ -31,7 +31,7 @@ namespace API_FAUNA
 
             services.AddControllers();
             services.AddDbContext<FaunaContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("Server=(localdb)\\mssqllocaldb;Database=Fauna;Trusted_Connection=true;")));
+               options.UseSqlServer(Configuration.GetConnectionString("faunaConnectionString")));
 
             services.AddSwaggerGen(c =>
             {
@@ -40,7 +40,7 @@ namespace API_FAUNA
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -59,6 +59,9 @@ namespace API_FAUNA
             {
                 endpoints.MapControllers();
             });
+
+            serviceProvider.GetService<FaunaContext>().Database.Migrate();
+
         }
     }
 }

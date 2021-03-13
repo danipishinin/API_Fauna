@@ -11,7 +11,7 @@ namespace API_FAUNA.Interfaces
         void Adicionar(Especie e);
         void Atualizar(Especie e);
         void Remover(Especie e);
-        IList<Especie> Especies();
-
+        IList<Especie> GetEspecies();
+        Especie GetId(int id);
     }
 }
